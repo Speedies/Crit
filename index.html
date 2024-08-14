@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verification</title>
     <style>
-        body { font-family: Arial, sans-serif; }
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
         #message { margin-top: 20px; }
     </style>
 </head>
@@ -17,17 +17,23 @@
     <script>
         document.getElementById('verifyButton').addEventListener('click', function() {
             const messageDiv = document.getElementById('message');
-            messageDiv.innerHTML = "Loading...";
+            messageDiv.innerHTML = "Verifying...";
 
-            fetch('/verify', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => {
-                    messageDiv.innerHTML = "Verified success!";
-                })
-                .catch(error => {
-                    messageDiv.innerHTML = "An error occurred.";
-                    console.error('Error:', error);
-                });
+            fetch('/verify', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ user_id: 'USER_ID_HERE' }) // Replace with the actual user ID dynamically
+            })
+            .then(response => response.json())
+            .then(data => {
+                messageDiv.innerHTML = "You have been verified, you may close this window.";
+            })
+            .catch(error => {
+                messageDiv.innerHTML = "An error occurred.";
+                console.error('Error:', error);
+            });
         });
     </script>
 </body>
