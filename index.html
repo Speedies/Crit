@@ -15,7 +15,11 @@
     <div id="message"></div>
 
     <script>
-        // Use the Fetch API to get the user ID dynamically
+        // Extract the user ID from the URL parameters or set it from a known variable
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user_id'); // Expecting user_id in the URL
+
+        // Verify button click event
         document.getElementById('verifyButton').addEventListener('click', function() {
             const messageDiv = document.getElementById('message');
             messageDiv.innerHTML = "Verifying...";
@@ -25,14 +29,18 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ user_id: 'USER_ID_HERE' }) // This will be replaced dynamically
+                body: JSON.stringify({ user_id: userId }) // Send the user ID dynamically
             })
             .then(response => response.json())
             .then(data => {
-                messageDiv.innerHTML = "You have been verified, you may close this window.";
+                if (data.status === "success") {
+                    messageDiv.innerHTML = "You have been verified, you may close this window.";
+                } else {
+                    messageDiv.innerHTML = "Verification failed.";
+                }
             })
             .catch(error => {
-                messageDiv.innerHTML = "An error occurred.";
+                messageDiv.innerHTML = "An error occurred: " + error.message;
                 console.error('Error:', error);
             });
         });
