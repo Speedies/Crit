@@ -15,6 +15,7 @@
     <div id="message"></div>
 
     <script>
+        // Use the Fetch API to get the user ID dynamically
         document.getElementById('verifyButton').addEventListener('click', function() {
             const messageDiv = document.getElementById('message');
             messageDiv.innerHTML = "Verifying...";
@@ -24,7 +25,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ user_id: 'USER_ID_HERE' }) // Replace with the actual user ID dynamically
+                body: JSON.stringify({ user_id: 'USER_ID_HERE' }) // This will be replaced dynamically
             })
             .then(response => response.json())
             .then(data => {
